@@ -70,7 +70,7 @@ function App() {
                 <Route path={"/catalog"} element={<Catalog/>}/>
             </Routes>
         </Layout>
-fdsfsd
+hello world
     </div>);
 }
 
