@@ -1,0 +1,13 @@
+
+.games img{
+    width: 100%;
+}
+.games__item{
+    border: 1px solid #282c34;
+    width: 720px;
+    margin: 0 auto;
+    padding: 10px;
+}
+.games__item__content{
+
+}

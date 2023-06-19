@@ -1,0 +1,19 @@
+.form{
+    border-radius: 20px;
+    margin: 0 auto;
+}
+.search{
+    width: 400px;
+    margin: 0 auto;
+    display: flex;
+    height: 30px;
+    justify-content: center;
+}
+.input{
+    height: 100%;
+}
+
+.button{
+    height: 100%;
+    width: 40px;
+}

@@ -1,0 +1,21 @@
+.games__header{
+    display: flex;
+  align-items: center;
+    justify-content: space-between;
+}
+
+.sort{
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+    gap: 10px;
+
+  &>div{
+    background-color: rgba(241, 241, 241, 0.9);
+    padding: 15px 10px;
+    cursor: pointer;
+  }
+  .sort__active{
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
