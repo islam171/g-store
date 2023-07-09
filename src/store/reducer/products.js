@@ -19,7 +19,33 @@ const products = (state = defaultState, action) => {
         case "SET_LOADED":
             return {...state, isLoaded: action.payload}
         case "UPDATE_PRODUCT":
-            return {...state, items: action.payload}
+            const newItem = [
+                ...state.items
+            ]
+            for (let i in newItem){
+                if(newItem[i]['id'] === action.payload.id){
+                    newItem[i]['id'] = action.payload.id
+                    newItem[i]['name'] = action.payload.name
+                    newItem[i]['categoryId'] = action.payload.categoryId
+                    newItem[i]['price'] = action.payload.price
+                }
+            }
+
+            // newItem.map((item) => {
+            //     if(item['id'] === action.payload.id) {
+            //         item['id'] = action.payload.id
+            //         item['name'] = action.payload.name
+            //         item['categoryId'] = action.payload.categoryId
+            //         item['price'] = action.payload.price
+            //     }
+            // })
+
+            return {
+                ...state,
+                items: newItem
+            }
+
+
         case "REMOVE_PRODUCT":
             const newItems = [
                 ...state.items

@@ -1,4 +1,3 @@
-import styles from './category.module.scss'
 import {useSelector} from "react-redux";
 
 const Category = ({onClickItem, activeCategory}) => {
@@ -6,15 +5,19 @@ const Category = ({onClickItem, activeCategory}) => {
     const categoryList = useSelector(({filters}) => filters.categoryList)
 
     return <>
-        <div className={styles.Category}>
+        <div className="Category">
             <ul>
                 <li onClick={() => onClickItem(null)}
-                    className={activeCategory == null ? styles.active : ''}>Все
+                    className={activeCategory == null ? "active" : ''}>Все
                 </li>
-
-                {categoryList.map((category) =>
-                    <li key={`${category.name}__${category.id}`} onClick={() => onClickItem(Number(category.id))}
-                        className={activeCategory === Number(category.id) ? styles.active : ''}>{category.name}</li>)}
+                <ul>
+                    {categoryList.map((category) =>
+                        <li
+                            key={`${category.name}__${category._id}`}
+                            onClick={() => onClickItem(category._id)}
+                            className={activeCategory === category._id ? "active" : ''}
+                        >{category.name}</li>)}
+                </ul>
             </ul>
         </div>
     </>

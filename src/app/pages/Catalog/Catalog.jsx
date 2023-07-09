@@ -9,12 +9,16 @@ const Catalog = () => {
     const dispatch = useDispatch()
     const products = useSelector(({products}) => products.items)
     const isLoaded = useSelector(({products}) => products.isLoaded)
-    const {categoryId, sort, orderBy} = useSelector(({filters}) => filters)
+    const {categoryId} = useSelector(({filters}) => filters)
+
+    const categoryHandler = (index) => {
+        dispatch(setCategory(index))
+    }
 
     return <>
         <div className="catalog">
             <h2 className="catalog__title">Каталог</h2>
-            <Category onClickItem={(index) => dispatch(setCategory(index))} activeCategory={categoryId}/>
+            <Category onClickItem={(index) => categoryHandler(index)} activeCategory={categoryId}/>
             <Sort/>
             <Posts products={products} isLoaded={isLoaded} activeCategory={categoryId}/>
         </div>

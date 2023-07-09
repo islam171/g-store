@@ -1,9 +1,3 @@
-import styles from './Home.module.scss'
-import Posts from '../../components/Posts/Posts'
-import {useDispatch, useSelector} from "react-redux";
-import Category from "../../components/Category/Category";
-import {setCategory, setOrderBy, setSort} from "../../../store/actions/filters";
-import {Link} from "react-router-dom";
 
 const Home = () => {
 

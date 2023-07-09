@@ -1,9 +1,7 @@
-import styles from "./Post.module.css";
 import {Link} from 'react-router-dom'
 import {setCart} from "../../../store/actions/cart";
 import axios from "axios";
 import {useSelector, useDispatch} from "react-redux";
-import LoginIcon from '@mui/icons-material/Login';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddchartIcon from '@mui/icons-material/Addchart';
 const Post = ({item}) => {
@@ -38,17 +36,10 @@ const Post = ({item}) => {
         dispatch(setCart(obj))
     }
     return <>
-        {/*<div className={styles.games__item} key={item.id}>*/}
-        {/*    <h2><Link to={`post/${item.id}`}>{item.name}</Link></h2>*/}
-        {/*    <p>{item.price} тг</p>*/}
-        {/*    Компания: <span></span><br/>*/}
-        {/*    Категория: <span></span>*/}
-        {/*    <button onClick={() => OnAddProductToCart(item)}>Submit</button>*/}
-        {/*</div>*/}
         <div className="product__item" key={item.id}>
             <div className="product__holder">
                 <div className="product__img"><img src="" alt="product"/></div>
-                <h3><Link to={`post/${item.id}`}>{item.name}</Link></h3>
+                <h3><Link to={`post/${item.id}`}>{item.title}</Link></h3>
                 <span className="price">{item.price} тг</span>
             </div>
             <div className="product__control">

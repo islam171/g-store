@@ -14,7 +14,7 @@ const Footer = () => {
                                 <li><a className="column-footer__link">О нас</a></li>
                                 <li><a className="column-footer__link">О нас</a></li>
                             </ul>
-                            <span></span>
+                            <span className="arrow"></span>
                         </div>
                         <div className="footer__column column-footer">
                             <div className="column-footer__title">Компания</div>
@@ -25,7 +25,7 @@ const Footer = () => {
                                 <li><a className="column-footer__link">О нас</a></li>
                                 <li><a className="column-footer__link">О нас</a></li>
                             </ul>
-                            <span></span>
+                            <span className="arrow"></span>
                         </div>
                         <div className="footer__column column-footer">
                             <div className="column-footer__title">Компания</div>
@@ -36,7 +36,7 @@ const Footer = () => {
                                 <li><a className="column-footer__link">О нас</a></li>
                                 <li><a className="column-footer__link">О нас</a></li>
                             </ul>
-                            <span></span>
+                            <span className="arrow"></span>
                         </div>
 
                         <div className="footer__column column-footer slidebar-footer">

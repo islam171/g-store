@@ -1,17 +1,15 @@
-import styles from './header.module.css';
 import {Link} from 'react-router-dom'
-import CustomLink from './../CustomLink/CustomLink'
 import {useSelector} from "react-redux";
 import LoginIcon from '@mui/icons-material/Login';
 import Person2Icon from '@mui/icons-material/Person2';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddchartIcon from '@mui/icons-material/Addchart';
-import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import SearchInput from "../SearchInput/SearchInput";
 
 const Header = () => {
 
-    const user = useSelector(state => state.user.user)
+    const user = useSelector(state => state.user)
     const cart = useSelector(state => state.cart)
 
     return <>
@@ -21,7 +19,7 @@ const Header = () => {
                     <div className="header-top__burger">
                         <div className="burger"><span></span></div>
                     </div>
-                    <a href="#" className="logo"><Link to="/">G-store</Link></a>
+                    <div className="logo"><Link to="/">G-store</Link></div>
                     <div className="button yellow kotalog-button active">
                         <div className="burger"><span></span></div>
                         <Link to="/Catalog">
@@ -110,12 +108,13 @@ const Header = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="search">
-                        <input type="text" placeholder="Поиск"/>
-                        <button className="search__button">
-                            <SearchIcon/>
-                        </button>
-                    </div>
+                    {/*<div className="search">*/}
+                    {/*    <input type="text" placeholder="Поиск"/>*/}
+                    {/*    <button className="search__button">*/}
+                    {/*        <SearchIcon/>*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
+                    <SearchInput/>
                     <nav>
                         <Link to="">
                             <FavoriteBorderIcon/>
@@ -123,7 +122,7 @@ const Header = () => {
                         <Link to="">
                             <AddchartIcon/>
                         </Link>
-                        {Object.keys(user).length === 0 ? (<>
+                        {Object.keys(user.data).length === 0 ? (<>
                             <Link to="/SignUp">
                                 <div className="button">
                                     <LoginIcon/>

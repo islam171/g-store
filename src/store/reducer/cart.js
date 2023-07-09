@@ -40,7 +40,6 @@ const cart = (state = defaultState, action) => {
                 ...state.items
             }
             delete newItems[action.payload]
-            console.log(newItems)
             return {
                 ...state,
                 items: newItems,

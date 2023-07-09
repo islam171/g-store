@@ -25,3 +25,10 @@ export const setOrderBy = (items) => (
         payload: items
     }
 )
+
+export const setSearch = (text) => (
+    {
+        type: 'SET_SEARCH',
+        payload: text
+    }
+)

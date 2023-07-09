@@ -2,45 +2,44 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import styles from "./MyCompany.module.scss"
-import postStyles from "./../../components/Post/Post.module.css"
-import {setNameCompany} from "../../../store/actions/company";
 import {
-    createProductsByCompany,
-    deleteProducts,
-    setLoaded,
-    setProductsByCompany
+    createProductsByCompany, deleteProducts, setLoaded, setProductsByCompany, updateProducts
 } from "../../../store/actions/products";
 import {Link} from "react-router-dom";
-import {getAllProducts} from "./../../../services/sevrices.js"
 import {getCart, setCart} from "../../../store/actions/cart";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import AddchartIcon from "@mui/icons-material/Addchart";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Modal = ({product, close, func}) => {
 
-    const [productName, setProductName] = useState('')
-    const [categoryInput, setCategoryInput] = useState(0)
-    const [price, setPrice] = useState(0)
+    const [newName, setNewName] = useState(product.name)
+    const [newCategoryId, setNewCategoryId] = useState(product.categoryId)
+    const [newPrice, setNewPrice] = useState(Number(product.price))
     const {categoryList} = useSelector(({filters}) => filters)
 
-    return (<div className={`${styles.modal} ${styles.active}`}>
+    return (
+        <div className={`${styles.modal} ${styles.active}`}>
         <button className={styles.close} onClick={() => close(false)}></button>
         <form action="">
             <div className="form-group">
                 <label>Названия</label>
-                <input type="text" onChange={(e) => setProductName(e.target.value)}
-                       value={productName ? productName : product.name}/>
+                <input type="text" onChange={(e) => setNewName(e.target.value)}
+                       value={newName}/>
             </div>
             <div className="form-group">
                 <label>Цена</label>
-                <input type="text" onChange={(e) => setPrice(e.target.value)}
-                       value={price}/><br/>
+                <input type="text" onChange={(e) => setNewPrice(e.target.value)}
+                       value={newPrice}/><br/>
             </div>
-            <div onChange={(e) => setCategoryInput(Number(e.target.value))}>
+            <div onChange={(e) => setNewCategoryId(Number(e.target.value))}>
                 {categoryList.map((category, index) => (<div key={index}>
                     <input type="radio" value={category.id} name='categories'/>
                     <label>{category.name}</label>
                 </div>))}
             </div>
-            <button onClick={(e) => func(e, productName, price, categoryInput)}>Изменить</button>
+            <button onClick={(e) => func(e, newName, product.id, Number(newPrice), newCategoryId)}>Изменить</button>
         </form>
     </div>)
 }
@@ -50,6 +49,13 @@ const MyCompany = () => {
     const [categoryInput, setCategoryInput] = useState(0)
     const [price, setPrice] = useState(0)
     const [activeModalProduct, setActiveModalProduct] = useState(false)
+
+    const [product1, setProduct1] = useState({})
+
+    const OnClickUpdateProduct = (item) => {
+        setProduct1(item)
+        setActiveModalProduct(true)
+    }
 
     // Modal window
     const [companyName, setCompanyName] = useState('')
@@ -66,23 +72,21 @@ const MyCompany = () => {
         axios.get(`http://localhost:90/api/v1/product/author`, {
             headers: {'Authorization': `${token}`}
         }).then((res) => {
-            (res.data.products) && (
-                dispatch(setProductsByCompany([...res.data.products]))
-            )
+            (res.data.products) && (dispatch(setProductsByCompany([...res.data.products])))
         }).catch((error) => console.error(error))
         dispatch(setLoaded(false))
     }
 
-    const createProduct = async (e) => {
+    const createProduct = async (e, productName, categoryInput, price) => {
         e.preventDefault()
-        if(productName === '' || categoryInput === 0 || price === 0){
-            console.log('hello')
-        }else{
+        console.log(categoryInput)
+        return 0
+        if (productName === '' || categoryInput === undefined || price === 0) {
+            console.error('invalid data')
+        } else {
 
             await axios.post('http://localhost:90/api/v1/product', {
-                'name': productName,
-                'categoryId': categoryInput,
-                'price': price
+                'name': productName, 'categoryId': categoryInput, 'price': price
             }, {
                 headers: {'Authorization': `${user.token}`}
             }).catch((error) => {
@@ -91,18 +95,16 @@ const MyCompany = () => {
             await axios.get('http://localhost:90/api/v1/cart/user/products', {
                 headers: {'Authorization': `${user.token}`}
             }).then((res) => {
-                res.data.products && (
-                    res.data.products.map(item => {
-                        dispatch(getCart({
-                            'id': item.id,
-                            'name': item.name,
-                            'companyId': item.companyId,
-                            'categoryId': item.categoryId,
-                            'price': item.price,
-                            'cartId': item.cartId
-                        }))
-                    })
-                )
+                res.data.products && (res.data.products.map(item => {
+                    dispatch(getCart({
+                        'id': item.id,
+                        'name': item.name,
+                        'companyId': item.companyId,
+                        'categoryId': item.categoryId,
+                        'price': item.price,
+                        'cartId': item.cartId
+                    }))
+                }))
             })
         }
     }
@@ -116,7 +118,6 @@ const MyCompany = () => {
         }).catch((error) => {
             console.error(error)
         })
-        dispatch(setNameCompany(name))
     }
 
     const OnUpdateProduct = (e, name, id, price, categoryId) => {
@@ -125,58 +126,86 @@ const MyCompany = () => {
             'id': id, 'name': name, 'categoryId': categoryId, 'price': price
         }, {
             headers: {'Authorization': `${user.token}`}
-        }).catch((error) => {
+        }).then(() => dispatch(updateProducts({id, name, categoryId, price}))).catch((error) => {
             console.error(error)
         })
-        console.log(user.token)
     }
 
     const OnDeleteProduct = (e, item) => {
         e.preventDefault()
         axios.delete(`http://localhost:90/api/v1/product/id?productId=${item.id}`, {
-                     headers: {'Authorization': `${user.token}`}
-                 }).catch((error) => {
-                     console.error(error)
-                 })
+            headers: {'Authorization': `${user.token}`}
+        }).catch((error) => {
+            console.error(error)
+        })
         dispatch(deleteProducts(item))
     }
 
     const {token} = useSelector(({user}) => user.user)
-    useEffect(() => saveCompanyProducts(token),[])
+    useEffect(() => saveCompanyProducts(token), [])
 
+    return <div>
+        {activeModalProduct && <Modal product={product1} close={setActiveModalProduct}
+                                      func={OnUpdateProduct}></Modal>}
 
-    return <>
-        {company.name}
-        {/*<input type="text" onChange={(e) => setCompanyName(e.target.value)} value={companyName}/>*/}
-        <button onClick={() => setActiveModal(true)}>Редактирование</button>
-        <form action="">
-            <label>Названия</label> <input type="text" onChange={(e) => setProductName(e.target.value)}
-                                           value={productName}/><br/>
-            <div onChange={(e) => setCategoryInput(Number(e.target.value))}>
-                {categoryList.map((category, index) => (<div key={index}>
-                    <input type="radio" value={category.id} name='categories'/>
-                    <label>{category.name}</label>
-                </div>))}
-            </div>
-            <label>Цена</label> <input type="text" onChange={(e) => setPrice(e.target.value)} value={price}/><br/>
-            <button onClick={createProduct}>Добавить продукт</button>
-        </form>
+        <h2>{company.name}</h2>
+        <div className="profile__form">
+            <form action="" className="form">
+                <div className="form__group">
+                    <label htmlFor="">Названия</label>
+                    <input
+                        type="text"
+                        onChange={(e) => setProductName(e.target.value)}
+                        value={productName}
+                    />
+                </div>
+                <div className="form__group">
+                    <label htmlFor="">Цена</label>
+                    <input
+                        type="text"
+                        onChange={(e) => setPrice(e.target.value)}
+                        value={price}
+                        name='price'
+                    />
+                </div>
+                <div>
+                    <label htmlFor="">Категории</label>
+                    {categoryList.map((category, index) => (
+                        <div className="form__radiogroup" key={index}>
+                            <input
+                                type="radio"
+                                value={category.id}
+                                onChange={(e) => setCategoryInput(e.target.value)}
+                                name='categories'
+                            />
+                            {categoryInput}
+                            <label>{category.x}</label>
+                        </div>
+                    ))}
+                </div>
+                <div className="form__bottom">
+                    <button className="button yellow" onClick={(e) => createProduct(e,productName, categoryInput, price)} type="button">Добавить продукт</button>
+                </div>
+            </form>
+        </div>
 
-        <div className={postStyles.games}>
+        <div className="product">
             {products.map((item) => <>
-                    <div className={postStyles.games__item} key={item.id}>
+                <div className="product__item" key={item.id}>
+                    <div className="product__holder">
+                        <div className="product__img"><img src="" alt="product"/></div>
                         <h2><Link to={`post/${item.id}`}>{item.name}</Link></h2>
-                        <p>{item.price} тг</p>
-                        Компания: <span></span><br/>
-                        Категория: <span></span> <br/>
-                        <button onClick={(e) => OnDeleteProduct(e, item)}>delete</button>
-                        <button onClick={() => setActiveModalProduct(true)}>update</button>
-                        {activeModalProduct && <Modal product={item} close={setActiveModalProduct}
-                                                      func={(e, name, price, categoryId) => {
-                                                      OnUpdateProduct(e, name, item.id, price, categoryId)}}></Modal>}
+                        <span className="price">{item.price} тг</span>
                     </div>
-                </>
-            )}
+                    Категория: <span></span> <br/>
+                    <div className="product__control">
+                        <button onClick={(e) => OnDeleteProduct(e, item)}><span className="icon-2"><DeleteIcon/></span>
+                        </button>
+                        <button onClick={() => OnClickUpdateProduct(item)}><span className="icon-2"><EditIcon/></span>
+                        </button>
+                    </div>
+                </div>
+            </>)}
         </div>
 
         <div className={`${styles.modal} ${activeModal ? styles.active : ''}`}>
@@ -188,6 +217,6 @@ const MyCompany = () => {
         </div>
 
 
-    </>
+    </div>
 }
 export default MyCompany

@@ -2,7 +2,8 @@ const defaultState = {
     categoryId: null,
     sort: 'id',
     orderBy: 'ASC',
-    categoryList: []
+    categoryList: [],
+    searchText: ''
 }
 
 const filters = (state = defaultState, action) => {
@@ -15,6 +16,8 @@ const filters = (state = defaultState, action) => {
             return {...state, sort: action.payload}
         case "SET_ORDER_BY":
             return {...state, orderBy: action.payload}
+        case "SET_SEARCH":
+            return {...state, searchText: action.payload}
         default:
             return state
     }

@@ -950,6 +950,7 @@ footer{
 
 .profile {
   text-align: left;
+  padding: 30px 10px;
 
   &__title {
     margin: 16px 0;
@@ -958,14 +959,19 @@ footer{
   &__form {
     padding: 16px 0;
   }
+  img{
+    width: 150px;
+    border-radius: 50%;
+  }
 }
 .form {
   max-width: 560px;
+  text-align: left;
 
   &__group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     margin-bottom: 16px;
 
     input{
@@ -978,6 +984,12 @@ footer{
         border: none;
       }
     }
+  }
+
+  &__radiogroup{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
   }
 
   &__bottom{
@@ -1019,7 +1031,55 @@ footer{
   }
 }
 
+.catalog{
+  padding-top: 20px;
 
+  &__title{
+    text-align: left;
+  }
+}
+
+
+.Category {
+  width: 100%;
+  padding: 10px 0;
+
+  ul {
+    display: flex;
+    justify-content: left;
+    gap: 5px;
+
+    li {
+      line-height: 200%;
+      font-size: 14px;
+      color: white;
+      background-color: lightgray;
+      border-radius: 10px;
+      padding: 0 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .active {
+      background-color: #000;
+    }
+  }
+}
+
+
+.Sort{
+  display: flex;
+  gap: 10px;
+
+  select{
+    width: 200px;
+    padding: 5px;
+
+    &:focus{
+      border: 1px solid #000;
+    }
+  }
+}
 
 
 /* Elelments */
