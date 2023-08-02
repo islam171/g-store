@@ -1,10 +1,9 @@
-import styles from "./Posts.module.css";
 import Post from "../Post/Post";
 
-const Posts = ({products, isLoaded, activeCategory}) => {
+const Posts = ({products, isLoaded}) => {
     return <>
         <div className="product">
-            {isLoaded ? products.map((item) => <Post key={item.id} item={item}></Post>) : (
+            {isLoaded ? products.map((item, index) => <Post item={item} key={index}></Post>) : (
                 <>Загрузка...</>
             )}
         </div>

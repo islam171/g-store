@@ -5,30 +5,37 @@ const defaultState = {
 
 const cart = (state = defaultState, action) => {
     switch (action.type){
-        case "GET_CART":
-            return {
-                ...state,
-                items: {
-                    ...state.items,
-                    [action.payload.id]: [action.payload]
-                },
-                totalCount: Object.values(state.items).reduce(
-                    (accumulator, currentItem) => accumulator + currentItem.length, 1)
-            };
-
         case "SET_CART":
-            const itemCount = Object.values(state.items).reduce(
-                (accumulator, currentItem) => accumulator + currentItem.length, 1)
+            let newCar = {
+                ...state,
+                items: {
+                    ...state.items,
+                    [action.payload.product._id]: action.payload
+                }
+            }
+            const itemCount = Object.values(newCar.items).reduce(
+                (accumulator, currentItem) => accumulator + currentItem.count, 0)
+
             return {
                 ...state,
                 items: {
                     ...state.items,
-                    [action.payload.id]: !state.items[action.payload.id]
-                        ? [action.payload]
-                        : [...state.items[action.payload.id], action.payload]
+                    [action.payload.product._id]: action.payload
                 },
                 totalCount: itemCount
             };
+
+        case "ADD_CART":
+            const newCart = !state.items[action.payload.product._id] ? {...action.payload, ["count"]:1} : {...state.items[action.payload.product._id], ["count"]: state.items[action.payload.product._id].count + 1}
+            return {
+                ...state,
+                items: {
+                    ...state.items,
+                    [action.payload.product._id]: newCart
+                },
+                totalCount: state.totalCount + 1
+            }
+
         case "CLEAR_CART":
             return {
                 ...state,
@@ -39,7 +46,7 @@ const cart = (state = defaultState, action) => {
             const newItems = {
                 ...state.items
             }
-            delete newItems[action.payload]
+            delete newItems[action.payload.product._id]
             return {
                 ...state,
                 items: newItems,
@@ -47,17 +54,29 @@ const cart = (state = defaultState, action) => {
                     (accumulator, currentItem) => accumulator + currentItem.length, 0)
             };
         case "DELETE_ITEM":
-            const oldItem = {...state.items}
-            const newItem = oldItem[action.payload].length > 1 ? oldItem[action.payload].slice(1) : oldItem[action.payload]
 
+            // console.log(Object.values(state.items).reduce(
+            //     (accumulator, currentItem) => accumulator + currentItem.count, 0))
+            if(state.items[action.payload.product._id].count <= 1){
+                const newItems = {
+                    ...state.items
+                }
+                delete newItems[action.payload.product._id]
+                return {
+                    ...state,
+                    items: newItems,
+                    totalCount: Object.values(newItems).reduce(
+                        (accumulator, currentItem) => accumulator + currentItem.length, 0)
+                };
+            }
+            const newItem = {...state.items[action.payload.product._id], count: state.items[action.payload.product._id].count - 1}
             return {
                 ...state,
                 items: {
                     ...state.items,
-                    [action.payload]: newItem
+                    [action.payload.product._id]: newItem
                 },
-                totalCount: Object.values(state.items).reduce(
-                    (accumulator, currentItem) => accumulator + currentItem.length, 0) - 1
+                totalCount: state.totalCount - 1
             };
         // case "SET_CART_LOADING":
         //     const buildItems = action.payload.reduce((sum, obj) => !sum[obj.productsId] ? obj : [...sum[obj.productsId], obj ])

@@ -1,32 +1,20 @@
 import {useState} from "react";
-import axios from "axios";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
+import {registerHandler} from "../../../services/User";
 
 const SingUp = () => {
 
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
-    const user = useSelector(({user}) => user.user)
-
-    const registerHandler = () => {
-        axios.post('http://localhost:90/api/v1/SignUp', {
-            "username": login, "password": password, "isSalesman": 0
-        })
-            .then(function (response) {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.error(error);
-            });
-    }
-
+    const [image, setImage] = useState('')
+    const user = useSelector(({user}) => user)
 
     return <>
         <div className="profile">
             <h2 className="profile__title">Регестрация</h2>
             <div className="profile__form">
-                {Object.keys(user).length === 0 ? (
+                {Object.keys(user.data).length === 0 ? (
                     <form action="" className="form">
                         <div className="form__group">
                             <label htmlFor="">Телефон или Email</label>
@@ -37,8 +25,13 @@ const SingUp = () => {
                             <input type="text" name='password' onChange={(e) => setPassword(e.target.value)}
                                    value={password}/>
                         </div>
+                        <div className="form__group">
+                            <label htmlFor="">Пароль</label>
+                            <input type="file" name='password' onChange={(e) => setImage(e.target.value)}
+                                   value={image}/>
+                        </div>
                         <div className="form__bottom">
-                            <button className="button yellow" onClick={registerHandler} type='button'>Войти</button>
+                            <button className="button yellow" onClick={() => registerHandler(login, password, image)} type='button'>Войти</button>
                             <text className="form__links">
                                 <Link to="">Восстановить пароль</Link>
                                 <Link to="/SignIn">Уже есть аккаунт</Link>

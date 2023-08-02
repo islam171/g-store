@@ -1,8 +1,7 @@
 const Icon = ({children}) => {
-    <div>
-        <div className='icon'>
-            {children}
-        </div>
+
+    return <div className='icon__large'>
+        {children}
     </div>
 
 }

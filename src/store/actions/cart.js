@@ -1,12 +1,12 @@
-export const getCart = (items) => (
-    {
-        type: 'GET_CART',
-        payload: items
-    }
-)
 export const setCart = (items) => (
     {
         type: 'SET_CART',
+        payload: items
+    }
+)
+export const addCart = (items) => (
+    {
+        type: 'ADD_CART',
         payload: items
     }
 )

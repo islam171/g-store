@@ -108,18 +108,12 @@ const Header = () => {
                             </div>
                         </div>
                     </div>
-                    {/*<div className="search">*/}
-                    {/*    <input type="text" placeholder="Поиск"/>*/}
-                    {/*    <button className="search__button">*/}
-                    {/*        <SearchIcon/>*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
                     <SearchInput/>
                     <nav>
-                        <Link to="">
+                        <Link to="/favorite">
                             <FavoriteBorderIcon/>
                         </Link>
-                        <Link to="">
+                        <Link to="/cart">
                             <AddchartIcon/>
                         </Link>
                         {Object.keys(user.data).length === 0 ? (<>
@@ -158,10 +152,10 @@ const Header = () => {
                 </div>
                 <div className="header-bottom">
                     <nav>
-                        <a href="">О нас</a>
-                        <a href="">Оплата</a>
-                        <a href="">Доставка</a>
-                        <a href="">Контакты</a>
+                        <Link to={"about"}>О нас</Link>
+                        <Link to="">Оплата</Link>
+                        <Link to="">Доставка</Link>
+                        <Link to="/Contact">Контакты</Link>
                     </nav>
                     <div className="header-bottom__contact">
                         <div className="language">
@@ -175,7 +169,7 @@ const Header = () => {
                             </div>
 
                         </div>
-                        <a href="">+7(800) 800-80-80</a>
+                        <Link href={""}>+7(800) 800-80-80</Link>
                     </div>
                 </div>
 

@@ -1,55 +1,39 @@
+import AddchartTwoToneIcon from '@mui/icons-material/AddchartTwoTone';
+import Icon from '../../components/Icon/Icon'
+import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {categoryHandler} from "../../../services/Category";
 
 const Home = () => {
+
+    const dispatch = useDispatch()
+    let {categoryList} = useSelector(({filters}) => filters)
+    if(categoryList.lenght > 9){
+        categoryList = categoryList.slice(9)
+    }else{
+        categoryList = categoryList
+    }
+
 
     return <>
         <section className="block-heading">
             <div className="sidebar">
-                <div className="sidebar__item">
-                    <div className="middle-icon">
-                        <img src="./img//serach.svg" alt="Обои"/>
+                {categoryList.map((category) => (
+                    <Link to="/Catalog" key={category._id}>
+                    <div className="sidebar__item"  onClick={() => categoryHandler(category._id, dispatch)}>
+                        <div className="middle-icon">
+                            <Icon>
+                                <AddchartTwoToneIcon/>
+                            </Icon>
+                        </div>
+                        <h3>{category.name}</h3>
                     </div>
-                    <h3>Обои</h3>
-                </div>
-                <div className="sidebar__item">
-                    <div className="middle-icon">
-                        <img src="./img//serach.svg" alt="Обои"/>
-                    </div>
-                    <h3>Обои</h3>
-                </div>
-                <div className="sidebar__item">
-                    <div className="middle-icon">
-                        <img src="./img//serach.svg" alt="Обои"/>
-                    </div>
-                    <h3>Обои</h3>
-                </div>
-                <div className="sidebar__item">
-                    <div className="middle-icon">
-                        <img src="./img//serach.svg" alt="Обои"/>
-                    </div>
-                    <h3>Обои</h3>
-                </div>
-                <div className="sidebar__item">
-                    <div className="middle-icon">
-                        <img src="./img//serach.svg" alt="Обои"/>
-                    </div>
-                    <h3>Обои</h3>
-                </div>
-                <div className="sidebar__item">
-                    <div className="middle-icon">
-                        <img src="./img//serach.svg" alt="Обои"/>
-                    </div>
-                    <h3>Обои</h3>
-                </div>
-                <div className="sidebar__item">
-                    <div className="middle-icon">
-                        <img src="./img//serach.svg" alt="Обои"/>
-                    </div>
-                    <h3>Обои</h3>
-                </div>
-
+                    </Link>
+                ))}
+                <div className="sidebar__flex"></div>
                 <div className="sidebar__item allcategories">
                     <div className="yellow middle-icon">
-                        <div className=""></div>
+                        <div></div>
                     </div>
                     <h3>Все категории</h3>
                 </div>
@@ -71,7 +55,7 @@ const Home = () => {
                                     voluptatibus!</p>
                             </div>
                             <div className="slider__column">
-                                <button>Все товары</button>
+                                <Link to="/Catalog"><button>Все товары</button></Link>
                             </div>
 
                         </div>

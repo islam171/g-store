@@ -11,6 +11,13 @@ const user = (state = defaultState, action) => {
             return {...state, token: action.payload}
         case "SET_USER":
             return {...state, data: action.payload}
+        case "DELETE_USER":
+            return {
+                token: '',
+                data: {},
+                products: [],
+                isLoaded: false
+            }
         default:
             return state
     }
