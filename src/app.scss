@@ -1059,6 +1059,37 @@ footer {
 
   &__title {
     margin: 16px 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    transition: 0.6s;
+
+    button{
+      width: 24px;
+      height: 24px;
+    }
+    h2{
+      transition: 0.6s;
+    }
+
+    &.edit{
+      h2{
+        display: none;
+      }
+      .profile__input{
+        display: flex;
+      }
+    }
+    
+  }
+
+  &__input{
+    display: none;
+    transition: 0.6s;
+    input{
+      border: 1px solid #000;
+      border-right: none;
+    }
   }
 
   &__form {

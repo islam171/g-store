@@ -1,6 +1,5 @@
 import axios from "axios";
 import {addCart, clearCart, deleteCartItem, removeCartItem} from "../store/actions/cart";
-import {signOut} from "./User";
 
 export const OnClearCart = (token, dispatch) => {
     axios.delete(
@@ -9,7 +8,7 @@ export const OnClearCart = (token, dispatch) => {
     ).catch((error) => console.error(error))
     dispatch(clearCart())
 }
-export const OnAddProductToCart = async (item, token, dispatch) => {
+export const OnAddProductToCart = async (item, token, dispatch, navigate) => {
     try {
         const cart = await axios.post(
             `http://localhost:90/api/v1/cart`,
@@ -19,7 +18,8 @@ export const OnAddProductToCart = async (item, token, dispatch) => {
         const newCart = {id: cart.data._id, product: cart.data.productId}
         dispatch(addCart(newCart))
     }catch (e) {
-        console.log(e)
+        navigate("/SignIn")
+        console.error(e)
     }
 
 }

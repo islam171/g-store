@@ -1,8 +1,9 @@
 import {useDispatch, useSelector} from "react-redux";
-import {Link} from "react-router-dom";
+import {Link, redirect, useNavigate} from "react-router-dom";
 import {
     OnClearCart, OnAddProductToCart, OnDeleteProductToCart, OnRemoveCart
 } from "../../../services/Cart"
+import {useEffect} from "react";
 
 const Cart = () => {
     const {items} = useSelector(({cart}) => cart)
@@ -13,6 +14,14 @@ const Cart = () => {
 
     const user = useSelector(({user}) => user)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(carts.length < 1){
+            return navigate("/SignIn")
+        }
+    })
+
 
     return (<>
         <div>

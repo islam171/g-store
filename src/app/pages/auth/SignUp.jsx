@@ -32,10 +32,10 @@ const SingUp = () => {
                         </div>
                         <div className="form__bottom">
                             <button className="button yellow" onClick={() => registerHandler(login, password, image)} type='button'>Войти</button>
-                            <text className="form__links">
+                            <div className="form__links">
                                 <Link to="">Восстановить пароль</Link>
                                 <Link to="/SignIn">Уже есть аккаунт</Link>
-                            </text>
+                            </div>
                         </div>
                     </form>
                 ) : (<span>Вы авторизованы</span>)}

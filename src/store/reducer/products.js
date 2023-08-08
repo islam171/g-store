@@ -10,7 +10,7 @@ const products = (state = defaultState, action) => {
             return {...state, items: action.payload, isLoaded: true}
         case "SET_PRODUCTS_BY_COMPANY":
             return {...state, productsByCompany: action.payload, isLoaded: true}
-        case "CREATE_PRODUCTS_BY_COMPANY":
+        case "CREATE_PRODUCTS":
             return {
                 ...state,
                 productsByCompany: state.productsByCompany ? [...state.productsByCompany, action.payload] : [action.payload],

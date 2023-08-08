@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {loginHandler} from "../../../services/User";
@@ -11,6 +11,16 @@ const SingIn = () => {
 
     const dispatch = useDispatch()
     const user = useSelector(({user}) => user)
+
+    useEffect(() => {
+        document.addEventListener('keydown', detectedKeyDown, true)
+    }, [])
+
+    const detectedKeyDown = (e) => {
+        if(e.key === "Enter"){
+            loginHandler(login, password, dispatch)
+        }
+    }
 
     return <>
         <div className="profile">

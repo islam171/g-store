@@ -27,7 +27,7 @@ const saveState = (token, dispatch) => {
                 }))
             })
         )
-    })
+    }).catch((error) => console.error(error))
 }
 
 
@@ -49,4 +49,16 @@ export const loginHandler = async (login, password, dispatch) => {
 export const signOut = async (dispatch) => {
     dispatch(deleteUser())
     dispatch(clearCart())
+}
+
+export const getMe =  (token, navigate, dispatch) => {
+    const user = axios.get('http://localhost:90/api/v1/auth/me', {headers: {'Authorization': `${token}`}})
+        .then(res => {return res.data})
+        .catch((e) => {
+            if(e.response.status === 403){
+                signOut(dispatch)
+                navigate("/SignIn")
+            }
+        })
+    return user
 }
