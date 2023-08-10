@@ -1,5 +1,5 @@
 import axios from "axios";
-import {createProduct, setLoaded, setProducts} from "../store/actions/products";
+import {createProduct, deleteProducts, setLoaded, setProducts} from "../store/actions/products";
 
 export const getProduct = async (id) => {
     return await axios.get(`http://localhost:90/api/v1/product/${id}`).catch((error) => console.error(error))
@@ -28,8 +28,27 @@ export const getProductAuthor = async (token) => {
 
 export const addProduct = async (token, data, dispatch) => {
     try{
-        const product = await axios.post('http://localhost:90/api/v1/product', data,{headers: {'Authorization': `${token}`}})
-        dispatch(createProduct(product))
+        const {title, desc, price, image, categoryId} = data
+
+
+        const product = await axios.post('http://localhost:90/api/v1/product',
+            {
+                title,
+                desc,
+                price,
+                categoryId,
+                imageURL: image
+            }
+            ,{headers: {'Authorization': `${token}`}})
+    }catch (e) {
+        console.log(e)
+    }
+}
+
+export const deleteProduct = async (token, productId, dispatch) => {
+    try{
+        await axios.delete(`http://localhost:90/api/v1/product/${productId}`,{headers: {'Authorization': `${token}`}})
+        dispatch(deleteProducts(productId))
     }catch (e) {
         console.log(e)
     }

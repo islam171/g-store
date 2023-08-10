@@ -10,6 +10,11 @@ const products = (state = defaultState, action) => {
             return {...state, items: action.payload, isLoaded: true}
         case "SET_PRODUCTS_BY_COMPANY":
             return {...state, productsByCompany: action.payload, isLoaded: true}
+        case "CLEAR_MY_PRODUCTS":
+            return {
+                ...state,
+                productsByCompany: []
+            };
         case "CREATE_PRODUCTS":
             return {
                 ...state,
@@ -31,21 +36,10 @@ const products = (state = defaultState, action) => {
                 }
             }
 
-            // newItem.map((item) => {
-            //     if(item['id'] === action.payload.id) {
-            //         item['id'] = action.payload.id
-            //         item['name'] = action.payload.name
-            //         item['categoryId'] = action.payload.categoryId
-            //         item['price'] = action.payload.price
-            //     }
-            // })
-
             return {
                 ...state,
                 items: newItem
             }
-
-
         case "REMOVE_PRODUCT":
             const newItems = [
                 ...state.items
@@ -55,13 +49,6 @@ const products = (state = defaultState, action) => {
             ]
             delete newItems[action.payload]
             delete newItemsCom[action.payload]
-            //
-            // console.log(
-            //     {
-            //         items: state.items.filter(item => item.id !== action.payload.id),
-            //         productsByCompany: state.productsByCompany.filter(item => item !== action.payload),
-            //     }
-            // )
 
             return {
                 ...state,

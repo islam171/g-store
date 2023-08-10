@@ -1,6 +1,7 @@
 import axios from "axios";
 import {deleteUser, setToken, setUser} from "../store/actions/user";
 import {clearCart, setCart} from "../store/actions/cart";
+import {clearMyProducts, deleteMyProducts} from "../store/actions/products";
 
 export const registerHandler = (login, password, image) => {
     axios.post('http://localhost:90/api/v1/auth/SignUp', {
@@ -49,6 +50,7 @@ export const loginHandler = async (login, password, dispatch) => {
 export const signOut = async (dispatch) => {
     dispatch(deleteUser())
     dispatch(clearCart())
+    dispatch(clearMyProducts())
 }
 
 export const getMe =  (token, navigate, dispatch) => {

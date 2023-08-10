@@ -1127,7 +1127,10 @@ footer {
   &__radiogroup {
     display: flex;
     gap: 10px;
-    margin-bottom: 16px;
+
+    input{
+      height: 20px;
+    }
   }
 
   &__bottom {
